@@ -122,3 +122,41 @@ Node.Js, Express.js등을 활용하여 만든 아이템 시뮬리이터 입니�
 - 캐릭터마다 초기에 게임 머니 1만원을 지급하는데 이걸론 뭔가 좀 아쉽습니다.
 - 아이템을 더 구입하고 싶다면 게임 머니를 버는 해당 API를 불러서 100원씩 벌게끔 해봅시다!
 - 돈을 벌 내 캐릭터의 ID를 URI의 **parameter**로 전달 받기만 하면 해당 캐릭터의 잔액 게임 머니를 100원씩 늘려주고 response로 변경된 잔액 게임 머니를 전달해주세요. 
+
+# 사용 기술
+1. 베이스 : Node.js
+
+2. 웹 프레임워크 : Express.js
+
+3. 패키지 매니저 : yarn
+
+4. 모듈 시스템 : ES6 모듈 시스템
+
+5. 데이터베이스 : RDS
+
+6. 배포 : AWS EC2 / PM2
+
+# 파일 구조
+![image](https://github.com/user-attachments/assets/eb9ec30c-6192-4a55-8d9f-1f212f079068)
+
+# API 명세서
+
+| <div style="width: 200px">기능</div>                      | API URL                              | Method | Request                                                             | Response                                                                                      |
+|----------------------------|--------------------------------------|--------|--------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| 사용자 회원가입               | `/api/sign-up`                    | POST   | ` {"username": "1","password": "password1234","confirmPassword": "password1234","name":"테스트사용자"} `                                           | ` {"message": "회원가입이 완료되었습니다.","user": {"id": 1,"username": "1","name": "테스트사용자"} }`
+| 로그인                    | `/api/sign-in`                    | POST   | ` {"username": "Ebar","password": "qwer1234"} `                                           | ` {"message": "로그인 성공"} `
+| 캐릭터 생성                | `/api/Character`                    | POST   | ` {"name":"TESTER"} `                                           | `{ "message": "캐릭터 생성 성공","characterId": 1} `                                                                       |
+| 캐릭터 삭제                | `/api/character/:Id`       | DELETE | `{ }`                                                              | `{ "message": "캐릭터가 삭제되었습니다." }`                                                                                        |
+| 캐릭터 조회                | `/api/Character/:Id`       | GET    | `{ }`                                                              | `{"name": "TESTER","health": 500,"power": 100,"money": 10000}`                                        |
+| 아이템 생성                | `/api/items`                         | POST   | `{"item_code": 1,"item_name": "부채","item_stat": { "health": 20, "power": 2 },"item_price": 500 }` | `{"message": "새로운 아이템 생성","newItem": {"id": 1,"item_code": 1,"item_name": "부채", "item_stat": { "power": 2, "health": 20 }, "item_price": 50 } } }`          |
+| 아이템 수정                | `/api/items/:item_code`               | PUT  | `{"item_name": "물통", "item_stat": { "health": 40 }}`              | `{"id": 1,"item_code": 1,"item_name": "물통","item_stat": { "health": 40 },"item_price": 500 }`                                                                                        |
+| 아이템 조회            | `/api/item`                         | GET    | `{ }`                                                              | ` [ {"item_code": 1,"item_name": "물통","item_price": 500}` |
+| 특정 아이템 조회            | `/api/item/:item_code/detail`               | GET    | `{ }`                                                              | `{ "item_code": 1,"item_name": "물통","item_stat": {	"health": 40},"item_price": 500 }`     |
+| 아이템 구매            | `/api/items/:character_id/purchase`               | POST    | `[{"item_code": 1,"count": 1}]`                                 | `{ "message": "아이템 구매 성공","remainingMoney": 9500 }`     |
+| 아이템 판매            | `/api/items/:character_id/sell`               | POST    | `[{"item_code": 1,"count": 1}]`                                     | `{ "message": "아이템 구매 성공","remainingMoney": 10000 }`     |
+| 아이템 장착            | `/api/item/:character_id/equip`               | POST    | `[{"item_code": 1}]`                                     | `{ "message": "아이템 장착 성공." }`   |
+| 캐릭터가 장착중인 아이템 조회 | `/api/characters/:character_id/items` | GET    | `{ }`                                                              | `[{"item_code": 1,"item_name": "물통"}]                                                     |
+| 캐릭터에서 아이템 해제      | `/api/characters/:character_id/detach` | DELETE | `{ "item_code": 1 }`                                               | `{"message": "아이템 탈착 성공","updated_character": {"id": 1,"name": "TESTIER","health": 500,"power": 100,"money": 10000,"userId": 1}}`                                                                  |
+| 보유 게임 머니 증가      | `/api/characters/:character_id/earn-money` | DELETE | `{ }`                                               | `{"message": "게임 머니 증가 성공","current_money": 10100}`                                          |
+
+
