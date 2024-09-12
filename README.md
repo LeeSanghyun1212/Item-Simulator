@@ -159,4 +159,9 @@ Node.Js, Express.js등을 활용하여 만든 아이템 시뮬리이터 입니�
 | 캐릭터에서 아이템 해제      | `/api/characters/:character_id/detach` | DELETE | `{ "item_code": 1 }`                                               | `{"message": "아이템 탈착 성공","updated_character": {"id": 1,"name": "TESTIER","health": 500,"power": 100,"money": 10000,"userId": 1}}`                                                                  |
 | 보유 게임 머니 증가      | `/api/characters/:character_id/earn-money` | DELETE | `{ }`                                               | `{"message": "게임 머니 증가 성공","current_money": 10100}`                                          |
 
+# 링크
+> 배포 링크
+http://3.35.171.94:3018
+
+
 
